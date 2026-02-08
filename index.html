@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="src/main.css" />
+    <script type="module" src="src/main.ts" defer></script>
+  </head>
+  <body class="min-h-svh grid">
+    <main class="grid place-items-center bg-linear-to-t from-[#09203f] to-[#537895]">
+      <section class="w-11/12 sm:w-full max-w-115 mx-auto p-3 space-y-3">
+        <h1 class="text-center text-2xl text-zinc-50/90 text-shadow-sm text-shadow-white">Tic Tac Toe</h1>
+        <h3 class="text-center text-xl text-zinc-50/90">Player's Turn</h3>
+        <div class="relative grid grid-cols-3 gap-3" id="game">
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="0" data-col="0"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="0" data-col="1"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="0" data-col="2"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="1" data-col="0"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="1" data-col="1"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="1" data-col="2"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="2" data-col="0"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="2" data-col="1"></button>
+          <button type="button" class="aspect-square bg-zinc-50/70 rounded-2xl shadow-lg shadow-gray-800/60" data-row="2" data-col="2"></button>
+          <div class="absolute inset-0 backdrop-blur-lg grid place-items-center rounded-lg" id="selection">
+            <div class="w-1/2 mx-auto">
+              <p class="text-center mb-4 text-zinc-700 text-lg">Select your choice</p>
+              <div class="flex justify-around">
+                <button type="button" class="bg-zinc-950/30 p-2.5 text-lg rounded-full" id="selectedX">X</button>
+                <button type="button" class="bg-zinc-950/30 p-2.5 text-lg rounded-full" id="selectedO">O</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-1.5 items-center bg-white/90 p-2 rounded-2xl">
+          <img src="/stopwatch.svg" alt="stopwatch icon" width="30" height="30" />
+          <div class="flex-1 relative h-3.75">
+            <span class="absolute inset-0 w-2/4 bg-linear-45 from-[hsl(124_95%_60%)] via-[hsl(160_95%_59%)] to-[hsl(202_96%_58%)] rounded-lg" id="timebar"></span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
