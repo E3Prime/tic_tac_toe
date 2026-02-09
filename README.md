@@ -11,7 +11,7 @@ A high-stakes version of the classic Tic-Tac-Toe game. It features a modern meta
 
 ## 🔗 Links
 
-- **Live Demo Link:**
+- **Live Demo Link:** https://e3prime.github.io/tic_tac_toe
 
 ## ⚔️ Tic Tac Toe Showcase
 
