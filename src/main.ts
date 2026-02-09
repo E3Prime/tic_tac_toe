@@ -1,5 +1,18 @@
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+const determineSelection = () => {
+  if (!mark.checked) {
+    player = "X";
+    computer = "O";
+    selectionElem.setAttribute("hidden", "");
+    return;
+  }
+
+  player = "O";
+  computer = "X";
+  selectionElem.setAttribute("hidden", "");
+};
+
 const stopInterval = () => {
   if (timerInterval) {
     clearInterval(timerInterval);
@@ -9,10 +22,9 @@ const stopInterval = () => {
 
 const gameElem = document.getElementById("game") as HTMLElement;
 const gameVerdict = gameElem.previousElementSibling as HTMLElement;
-const selectionElem = gameElem.lastElementChild?.previousElementSibling as HTMLElement;
-const selectX = selectionElem.querySelector("#selectedX") as HTMLButtonElement;
-const selectO = selectionElem.querySelector("#selectedO") as HTMLButtonElement;
-const playAgainElem = gameElem.lastElementChild as HTMLButtonElement;
+const selectionElem = gameElem.querySelector("#selection") as HTMLElement;
+const mark = selectionElem.querySelector("#mark") as HTMLInputElement;
+const playAgainElem = document.getElementById("playAgain") as HTMLButtonElement;
 const timebar = document.getElementById("timebar") as HTMLElement;
 
 let player = "";
@@ -45,14 +57,15 @@ gameElem.addEventListener("click", performAction);
 playAgainElem.addEventListener("click", replay);
 
 function performAction(e: PointerEvent) {
-  if (!(e.target instanceof HTMLButtonElement) || e.target.id === "playAgain") return;
+  if (!(e.target instanceof HTMLButtonElement)) return;
   if (eventsDisabled) return;
+
   stopInterval();
   timeLeft = totalTimeSeconds;
   const target = e.target;
-  target.disabled = true;
-  if (target.id === "selectedX" || target.id === "selectedO") {
-    determineSelection(target.id);
+  if (target.id !== "startGame") target.disabled = true;
+  if (target.id === "startGame") {
+    determineSelection();
     if (player === "O") computerTurn();
     timerInterval = setInterval(limitedTimeAction, updateIntervalMs);
     return;
@@ -69,6 +82,8 @@ function performAction(e: PointerEvent) {
 
 async function verdict(outcome: string) {
   stopInterval();
+  eventsDisabled = true;
+
   if (outcome === "Player Wins") {
     gameVerdict.textContent = "Player Wins!";
     gameVerdict.style.visibility = "visible";
@@ -103,7 +118,7 @@ function checkForMatch() {
 function playerTurn(btnElem: HTMLButtonElement, r: number, c: number) {
   board[r][c] = player;
   btnElem.disabled = true;
-  btnElem.style.color = "#191970";
+  player === "X" ? (btnElem.style.color = "crimson") : (btnElem.style.color = "blue");
   btnElem.textContent = player;
 }
 
@@ -118,25 +133,12 @@ function computerTurn() {
       board[randomRow][randomSpot] = computer;
       const btnElem = document.querySelector(`[data-row="${randomRow}"][data-col="${randomSpot}"]`) as HTMLButtonElement;
       btnElem.disabled = true;
-      btnElem.style.color = "crimson";
+      computer === "X" ? (btnElem.style.color = "crimson") : (btnElem.style.color = "blue");
       btnElem.textContent = computer;
       break;
     }
     continue;
   }
-}
-
-function determineSelection(selectedChoice: string) {
-  if (selectedChoice === "selectedX") {
-    player = "X";
-    computer = "O";
-    selectionElem.setAttribute("hidden", "");
-    return;
-  }
-
-  player = "O";
-  computer = "X";
-  selectionElem.setAttribute("hidden", "");
 }
 
 async function limitedTimeAction() {
@@ -167,7 +169,6 @@ function replay() {
   player = "";
   computer = "";
   timeLeft = totalTimeSeconds;
-  eventsDisabled = false;
 
   for (const innerArray of board) {
     for (let i = 0; i < innerArray.length; ++i) {
@@ -182,12 +183,10 @@ function replay() {
     cell.style.color = "";
   });
 
-  selectX.disabled = false;
-  selectO.disabled = false;
-
   timebar.style.width = "100%";
   gameVerdict.textContent = "";
   gameVerdict.style.visibility = "hidden";
   playAgainElem.setAttribute("hidden", "");
   selectionElem.removeAttribute("hidden");
+  eventsDisabled = false;
 }
